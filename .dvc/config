@@ -1,0 +1,7 @@
+[core]
+    remote = origin
+['remote "origin"']
+    url = s3://ML_Pipeline_and_DVC
+    endpointurl = https://dagshub.com/api/v1/repo-buckets/s3/Sanikak99
+    access_key_id = ebd0db43d46ffb4ee804bd46eb1c67995b78a901
+    secret_access_key = ebd0db43d46ffb4ee804bd46eb1c67995b78a901
