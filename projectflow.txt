@@ -36,6 +36,256 @@ Expermients with DVC:
     26> dvc commit-push the exp outcome that you want to keep
     27> Finally git add, commit, push
 
+or you can do this on DagsHub for free
+
+For your notes, here is a clean **DVC + DagsHub workflow**:
+
+# DVC + DagsHub Setup Steps
+
+## 1. Create DagsHub Account
+
+* Sign up using GitHub account.
+* Create a new repository.
+
+---
+
+## 2. Clone Repository
+
+```bash
+git clone <dagshub_repo_url>
+cd <repo_name>
+```
+
+---
+
+## 3. Initialize Git (if not already)
+
+```bash
+git init
+```
+
+---
+
+## 4. Initialize DVC
+
+```bash
+pip install dvc
+dvc init
+```
+
+Commit DVC files:
+
+```bash
+git add .
+git commit -m "Initialize DVC"
+```
+
+---
+
+## 5. Add Dataset to DVC
+
+Example:
+
+```bash
+dvc add data/
+```
+
+This creates:
+
+```text
+data/
+data.dvc
+```
+
+---
+
+## 6. Commit Dataset Metadata
+
+```bash
+git add data.dvc .gitignore
+git commit -m "Track dataset with DVC"
+```
+
+---
+
+## 7. Configure DagsHub as DVC Remote
+
+Get commands from:
+
+```text
+DagsHub Repository
+    ↓
+Remote
+    ↓
+DVC
+```
+
+Usually:
+
+```bash
+dvc remote add -d origin <dagshub_dvc_url>
+```
+
+---
+
+## 8. Configure Authentication
+
+Generate token:
+
+```text
+DagsHub
+    ↓
+Settings
+    ↓
+Access Tokens
+```
+
+Configure:
+
+```bash
+dvc remote modify origin auth basic
+dvc remote modify origin user <username>
+dvc remote modify origin password <token>
+```
+
+---
+
+## 9. Push Dataset to DagsHub
+
+```bash
+dvc push
+```
+
+Now:
+
+```text
+Code → GitHub/DagsHub Git
+Data → DagsHub Storage
+```
+
+---
+
+# Experiment Tracking Workflow
+
+## Run Experiment
+
+```bash
+dvc exp run
+```
+
+---
+
+## Run Multiple Experiments
+
+```bash
+dvc exp run
+dvc exp run
+dvc exp run
+```
+
+(Change parameters between runs.)
+
+---
+
+## Compare Experiments
+
+```bash
+dvc exp show
+```
+
+Detailed comparison:
+
+```bash
+dvc exp show --all-params --all-metrics
+```
+
+---
+
+## Compare Two Experiments
+
+```bash
+dvc exp diff exp1 exp2
+```
+
+---
+
+## Apply Best Experiment
+
+```bash
+dvc exp apply <experiment_name>
+```
+
+---
+
+# Pipeline Workflow
+
+Run complete pipeline:
+
+```bash
+dvc repro
+```
+
+DVC automatically executes required stages.
+
+---
+
+# Save Best Model/Data Version
+
+```bash
+git add .
+git commit -m "Best experiment"
+
+dvc push
+
+git push
+```
+
+---
+
+# Recover Data Later
+
+Clone project:
+
+```bash
+git clone <repo_url>
+cd <repo_name>
+```
+
+Install dependencies and pull data:
+
+```bash
+dvc pull
+```
+
+DVC downloads the exact dataset/model version from DagsHub.
+
+---
+
+# Important Commands Summary
+
+```bash
+dvc init
+
+dvc add data/
+
+dvc push
+
+dvc pull
+
+dvc repro
+
+dvc exp run
+
+dvc exp show
+
+dvc exp diff
+
+dvc exp apply <exp_name>
+```
+
+### One-line purpose of DVC
+
+**Git versions code, DVC versions data, models, and ML experiments.** 🚀
 
 
 
